@@ -119,6 +119,7 @@ fn say_time(timestr: String) {
         spoken_time.push(sunits[mins]);
     }
     println!("{} {}", spoken_time.join(" "), am_pm);
+    exit(0);
 }
 
 fn main() {
