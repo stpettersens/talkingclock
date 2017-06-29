@@ -13,9 +13,9 @@ task :default do
 end
 
 task :test do
-    sh "#{target}"
+    sh "#{tp}"
     puts ""
-    sh "#{target} --time 13:05"
+    sh "#{tp} --time 13:05"
 end
 
 task :upx => [:default] do
