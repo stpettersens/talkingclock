@@ -24,7 +24,7 @@ fn display_usage(program: &str) {
     println!("Command line application which says the time.");
     println!("Copyright 2017 Sam Saint-Pettersen.");
     println!("\nReleased under the MIT License.");
-    println!("\nUsage: {} [-h | -v | -t <hh:mm:ss>]", program);
+    println!("\nUsage: {} [-h | -v | -t <hh:mm>]", program);
     println!("\nOptions are:\n");
     println!("-t | --time: Input time in 24 hour notation.");
     println!("-h | --help: Display this usage information and exit.");

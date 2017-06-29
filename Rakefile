@@ -13,6 +13,8 @@ task :default do
 end
 
 task :test do
+    sh "#{tp} --help"
+    puts ""
     sh "#{tp}"
     puts ""
     sh "#{tp} --time 13:05"
