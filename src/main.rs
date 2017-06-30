@@ -19,7 +19,12 @@ fn display_version() {
     exit(0);
 }
 
-fn display_usage(program: &str) {
+fn display_error(program: &str, err: &str) {
+    println!("Error: {}", err);
+    display_usage(program, -1);
+}
+
+fn display_usage(program: &str, code: i32) {
     println!("Talking clock");
     println!("Command line application which says the time.");
     println!("Copyright 2017 Sam Saint-Pettersen.");
@@ -28,8 +33,8 @@ fn display_usage(program: &str) {
     println!("\nOptions are:\n");
     println!("-t | --time: Input time in 24 hour notation.");
     println!("-h | --help: Display this usage information and exit.");
-    println!("-v | --version: DIsplay version information and exit.");
-    exit(0);
+    println!("-v | --version: Display version information and exit.");
+    exit(code);
 }
 
 fn parse_unit(unit: &str) -> usize {
@@ -41,12 +46,11 @@ fn parse_unit(unit: &str) -> usize {
     unit
 }
 
-fn throw_invalid_time() {
-    println!("Error: Invalid format time!");
-    exit(-1);
+fn throw_invalid_time(program: &str) {
+    display_error(program, "Invalid format time");
 }
 
-fn say_time(timestr: String) {
+fn say_time(program: &str, timestr: String) {
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
     if timestr.is_empty() {
@@ -60,10 +64,10 @@ fn say_time(timestr: String) {
             hrs = parse_unit(&caps[0][0..2]);
             mins = parse_unit(&caps[1][0..2]);
         } else {
-            throw_invalid_time();
+            throw_invalid_time(program);
         }
         if hrs > 23 || mins > 59 {
-            throw_invalid_time();
+            throw_invalid_time(program);
         }
     }
     let mut spoken_time: Vec<&str> = vec!["It's"];
@@ -130,11 +134,11 @@ fn main() {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
                 "-t" | "--time" => timestr = cli.next_argument(i),
-                "-h" | "--help" => display_usage(&program),
+                "-h" | "--help" => display_usage(&program, 0),
                 "-v" | "--version" => display_version(),
                 _ => continue,
             }
         }
     }
-    say_time(timestr);
+    say_time(&program, timestr);
 }
