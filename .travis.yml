@@ -7,7 +7,7 @@ language: rust
 
 before_install:
   - sudo apt-get install -y pkg-config
-  - sudo apt-get install -y ffplay
+  - sudo apt-get install -y ffmpeg
   - sudo apt-get install -y rubygems
   - sudo gem install os
   - ruby --version
