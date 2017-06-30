@@ -6,11 +6,10 @@
     Released under the MIT License.
 */
 
+mod voice;
 extern crate clioptions;
 extern crate litepattern;
 extern crate chrono;
-extern crate rodio;
-mod voice;
 use clioptions::CliOptions;
 use litepattern::LPattern;
 use chrono::Local;

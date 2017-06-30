@@ -6,8 +6,6 @@
     Released under the MIT License.
 */
 
-use std::fs::File;
-use std::io::BufReader;
 use std::process::Command;
 
 pub struct Voice {
