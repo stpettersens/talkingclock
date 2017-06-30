@@ -7,8 +7,7 @@ language: rust
 
 before_install:
   - sudo apt-get install -y pkg-config
-  - git clone https://gist.github.com/362fdde6ce39f504b79409d20dd8abce.git
-  - cd 362fdde6ce39f504b79409d20dd8abce
+  - sudo echo "#!/bin/sh\n" >> ffplay
   - chmod +x ffplay
   - sudo cp ffplay /usr/bin
   - cd ..
