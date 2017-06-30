@@ -9,9 +9,12 @@
 extern crate clioptions;
 extern crate litepattern;
 extern crate chrono;
+extern crate rodio;
+mod voice;
 use clioptions::CliOptions;
 use litepattern::LPattern;
 use chrono::Local;
+use voice::Voice;
 use std::process::exit;
 
 fn display_version() {
@@ -20,7 +23,7 @@ fn display_version() {
 }
 
 fn display_error(program: &str, err: &str) {
-    println!("Error: {}", err);
+    println!("Error: {}.\n", err);
     display_usage(program, -1);
 }
 
@@ -51,6 +54,7 @@ fn throw_invalid_time(program: &str) {
 }
 
 fn say_time(program: &str, timestr: String) {
+    let voice = Voice::new();
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
@@ -113,6 +117,7 @@ fn say_time(program: &str, timestr: String) {
         spoken_time.push(sunits[mins]);
     }
     println!("{} {}", spoken_time.join(" "), am_pm);
+    voice.speak_time(hrs, mins);
     exit(0);
 }
 
@@ -120,7 +125,7 @@ fn main() {
     let cli = CliOptions::new("talkingclock");
     let program = cli.get_program();
     let mut timestr = String::new();
-    if cli.get_num() > 0 {
+    if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
                 "-t" | "--time" => timestr = cli.next_argument(i),
