@@ -8,7 +8,7 @@
 
 use std::fs::File;
 use std::io::BufReader;
-use rodio::{Source, Decoder, get_default_endpoint, play_raw};
+use std::process::Command;
 
 pub struct Voice {
 
@@ -19,10 +19,16 @@ impl Voice {
         Voice {}
     }
     pub fn speak_time(&self, hrs: usize, mins: usize) {
-        let endpoint = get_default_endpoint().unwrap();
-        let file = File::open("its.wav").unwrap();
-        let source = 
-        Decoder::new(BufReader::new(file)).unwrap();
-        play_raw(&endpoint, source.convert_samples());
+        if cfg!(target_os = "windows") {
+            Command::new("sounder.exe")
+            .arg("its.wav")
+            .spawn()
+            .expect("sounder failed to start");
+        } else {
+            Command::new("ffplay")
+            .args(&["-autoexit", "-nodisp", "loglevel", "8", "its.wav"])
+            .spawn()
+            .expect("ffplay failed to start");
+        }
     }
 }
