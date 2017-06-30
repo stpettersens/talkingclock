@@ -10,7 +10,6 @@ before_install:
   - sudo echo "#!/bin/sh\n" >> ffplay
   - chmod +x ffplay
   - sudo cp ffplay /usr/bin
-  - cd ..
   - sudo apt-get install -y rubygems
   - sudo gem install os
   - ruby --version
