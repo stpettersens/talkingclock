@@ -24,7 +24,7 @@ impl Voice {
             .expect("sounder failed to start");
         } else {
             Command::new("ffplay")
-            .args(&["-autoexit", "-nodisp", "loglevel", "8", "its.wav"])
+            .args(&["-autoexit", "-nodisp", "-loglevel", "8", "its.wav"])
             .spawn()
             .expect("ffplay failed to start");
         }
