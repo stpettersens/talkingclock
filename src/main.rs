@@ -129,8 +129,15 @@ fn say_time(program: &str, timestr: String, conf: &str) {
     } else {
         spoken_time.push(sunits[mins]);
     }
-    println!("{} {}", spoken_time.join(" "), am_pm);
-    voice.speak_time(hrs, mins, am_pm);
+    let time = format!("{}", spoken_time.join(" "));
+    println!("{} {}", time, am_pm);
+    if voice.is_synth() {
+        voice.speak_time_synth(
+        &format!("{} {} {}", time, 
+        &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
+    } else {
+        voice.speak_time(hrs, mins, am_pm);
+    }
     exit(0);
 }
 

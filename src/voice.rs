@@ -7,22 +7,18 @@
 */
 
 use std::process::Command;
-use std::env;
 use std::thread;
 
 fn play_sound(voice: &str, word: &str) {
-    let wkdir = env::current_dir().unwrap();
     if cfg!(target_os = "windows") {
         Command::new("sounder.exe")
         .arg(&format!("voice/{}/{}.wav", voice, word))
-        .current_dir(&format!("{}", wkdir.display()))
         .spawn()
         .expect("sounder failed to start");
     } else {
         Command::new("ffplay")
         .args(&["-autoexit", "-nodisp", "-loglevel", "8", 
         &format!("voice/{}/{}.wav", voice, word)])
-        .current_dir(&format!("{}", wkdir.display()))
         .spawn()
         .expect("ffplay failed to start");
     }
@@ -35,6 +31,25 @@ pub struct Voice {
 }
 
 impl Voice {
+    pub fn is_synth(&self) -> bool {
+        let mut synth = false;
+        if self.voice == "synth" {
+            synth = true;
+        }
+        synth
+    }
+
+    pub fn speak_time_synth(&self, time: &str) {
+        if cfg!(target_os = "windows") {
+            Command::new("voice.exe")
+            .arg(time)
+            .spawn()
+            .expect("voice failed to start");
+        } else {
+            println!("talkingclock: Voice synth not implemented on *nix.");
+        }
+    }
+    
     pub fn speak_time(&self, hrs: usize, mins: usize, am_pm: &str) {
         let mut i = 1;
         for m in vec!["its", 
