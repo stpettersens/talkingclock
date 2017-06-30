@@ -18,7 +18,7 @@ fn play_sound(voice: &str, word: &str) {
     } else {
         Command::new("ffplay")
         .args(&["-autoexit", "-nodisp", "-loglevel", "8", 
-        &format!("{}/voice/{}.wav", voice, word)])
+        &format!("voice/{}/{}.wav", voice, word)])
         .spawn()
         .expect("ffplay failed to start");
     }
