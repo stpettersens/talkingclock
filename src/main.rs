@@ -51,22 +51,24 @@ fn throw_invalid_time(program: &str) {
 }
 
 fn say_time(program: &str, timestr: String) {
+    let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
     if timestr.is_empty() {
         let now = Local::now();
-        hrs = parse_unit(&format!("{}", now.format("%H")));
+        hrs = parse_unit(&format!("{}", now.format("%H"))) % 12;
         mins = parse_unit(&format!("{}", now.format("%M")));
     } else {
         let p = LPattern::new("%hh:%mm");
         let caps = p.apply_to(&timestr);
         if p.is_match(caps.clone(), &timestr) {
-            hrs = parse_unit(&caps[0][0..2]);
+            hrs24 = parse_unit(&caps[0][0..2]);
+            hrs = parse_unit(&caps[0][0..2]) % 12;
             mins = parse_unit(&caps[1][0..2]);
         } else {
             throw_invalid_time(program);
         }
-        if hrs > 23 || mins > 59 {
+        if hrs > 12 || mins > 59 {
             throw_invalid_time(program);
         }
     }
@@ -77,22 +79,10 @@ fn say_time(program: &str, timestr: String) {
     "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
     let stens: Vec<&str> = vec!["twenty", "thirty", "fourty", "fifty", "oh"];
     let mut am_pm = period[0];
-    match hrs {
-        12 => { am_pm = period[1]; },
-        13 => { hrs = 1; am_pm = period[1]; },
-        14 => { hrs = 2; am_pm = period[1]; },
-        15 => { hrs = 3; am_pm = period[1]; },
-        16 => { hrs = 4; am_pm = period[1]; },
-        17 => { hrs = 5; am_pm = period[1]; },
-        18 => { hrs = 6; am_pm = period[1]; },
-        19 => { hrs = 7; am_pm = period[1]; },
-        20 => { hrs = 8; am_pm = period[1]; },
-        21 => { hrs = 9; am_pm = period[1]; },
-        22 => { hrs = 10; am_pm = period[1]; },
-        23 => { hrs = 11; am_pm = period[1]; },
-        0 => { hrs = 12; am_pm = period[0]; },
-        _ => {},
+    if hrs24 > 11 {
+        am_pm = period[1];
     }
+    if hrs == 0 { hrs = 12; }
     spoken_time.push(sunits[hrs]);
     if mins >= 20 && mins < 30 {
         spoken_time.push(stens[0]);
