@@ -10,10 +10,16 @@ mod voice;
 extern crate clioptions;
 extern crate litepattern;
 extern crate chrono;
+extern crate serde;
+extern crate serde_json;
+#[macro_use]
+extern crate serde_derive;
 use clioptions::CliOptions;
 use litepattern::LPattern;
 use chrono::Local;
 use voice::Voice;
+use std::io::Read;
+use std::fs::File;
 use std::process::exit;
 
 fn display_version() {
@@ -52,13 +58,21 @@ fn throw_invalid_time(program: &str) {
     display_error(program, "Invalid format time");
 }
 
-fn say_time(program: &str, timestr: String) {
-    let voice = Voice::new();
+fn load_voice(conf: &str) -> Voice {
+    let mut vs = String::new();
+    let mut file = File::open(&conf).unwrap();
+    let _ = file.read_to_string(&mut vs);
+    serde_json::from_str(&vs).unwrap()
+}
+
+fn say_time(program: &str, timestr: String, conf: &str) {
+    let voice = load_voice(&conf);
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
     if timestr.is_empty() {
         let now = Local::now();
+        hrs24 = parse_unit(&format!("{}", now.format("%H")));
         hrs = parse_unit(&format!("{}", now.format("%H"))) % 12;
         mins = parse_unit(&format!("{}", now.format("%M")));
     } else {
@@ -71,7 +85,7 @@ fn say_time(program: &str, timestr: String) {
         } else {
             throw_invalid_time(program);
         }
-        if hrs > 12 || mins > 59 {
+        if hrs24 > 23 || mins > 59 {
             throw_invalid_time(program);
         }
     }
@@ -116,7 +130,7 @@ fn say_time(program: &str, timestr: String) {
         spoken_time.push(sunits[mins]);
     }
     println!("{} {}", spoken_time.join(" "), am_pm);
-    voice.speak_time(hrs, mins);
+    voice.speak_time(hrs, mins, am_pm);
     exit(0);
 }
 
@@ -124,6 +138,9 @@ fn main() {
     let cli = CliOptions::new("talkingclock");
     let program = cli.get_program();
     let mut timestr = String::new();
+
+    let conf = "voice.json";
+
     if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
@@ -134,5 +151,5 @@ fn main() {
             }
         }
     }
-    say_time(&program, timestr);
+    say_time(&program, timestr, &conf);
 }
