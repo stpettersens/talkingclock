@@ -7,18 +7,22 @@
 */
 
 use std::process::Command;
+use std::env;
 use std::thread;
 
 fn play_sound(voice: &str, word: &str) {
+    let wkdir = env::current_dir().unwrap();
     if cfg!(target_os = "windows") {
         Command::new("sounder.exe")
         .arg(&format!("voice/{}/{}.wav", voice, word))
+        .current_dir(&format!("{}", wkdir.display()))
         .spawn()
         .expect("sounder failed to start");
     } else {
         Command::new("ffplay")
         .args(&["-autoexit", "-nodisp", "-loglevel", "8", 
         &format!("voice/{}/{}.wav", voice, word)])
+        .current_dir(&format!("{}", wkdir.display()))
         .spawn()
         .expect("ffplay failed to start");
     }
