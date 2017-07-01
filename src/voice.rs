@@ -33,15 +33,24 @@ pub struct Voice {
 impl Voice {
     pub fn is_synth(&self) -> bool {
         let mut synth = false;
-        if self.voice == "synth" {
+        if &self.voice[0..self.voice.len() - 1] == "synth" {
             synth = true;
         }
         synth
     }
 
+    fn set_synth_gender(&self) -> &str {
+        let mut gender = "-f";
+        if self.voice == "synthm" {
+            gender = "-m";
+        }
+        &gender
+    }
+
     pub fn speak_time_synth(&self, time: &str) {
         if cfg!(target_os = "windows") {
             Command::new("voice.exe")
+            .arg(self.set_synth_gender())
             .arg(time)
             .spawn()
             .expect("voice failed to start");
