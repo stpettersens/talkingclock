@@ -145,7 +145,7 @@ fn say_time(program: &str, timestr: String, conf: &str) {
     if voice.is_synth() {
         voice.speak_time_synth(&format!("{} {} {}", time, 
         &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
-    } else if !ci{
+    } else if !is_ci() {
         voice.speak_time(hrs, mins, am_pm);
     }
     exit(0);
