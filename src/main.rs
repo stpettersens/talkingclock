@@ -20,6 +20,7 @@ use chrono::Local;
 use voice::Voice;
 use std::io::Read;
 use std::fs::File;
+use std::env;
 use std::process::exit;
 
 fn display_version() {
@@ -43,6 +44,16 @@ fn display_usage(program: &str, code: i32) {
     println!("-h | --help: Display this usage information and exit.");
     println!("-v | --version: Display version information and exit.");
     exit(code);
+}
+
+fn is_ci() -> bool {
+    let mut ci = false;
+    let val = "CI";
+    match env::var(val) {
+        Ok(val) => ci = true,
+        Err(e) => {},
+    }
+    ci
 }
 
 fn parse_unit(unit: &str) -> usize {
@@ -132,10 +143,9 @@ fn say_time(program: &str, timestr: String, conf: &str) {
     let time = format!("{}", spoken_time.join(" "));
     println!("{} {}", time, am_pm);
     if voice.is_synth() {
-        voice.speak_time_synth(
-        &format!("{} {} {}", time, 
+        voice.speak_time_synth(&format!("{} {} {}", time, 
         &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
-    } else {
+    } else if !ci{
         voice.speak_time(hrs, mins, am_pm);
     }
     exit(0);
