@@ -1,3 +1,7 @@
 target/
 **/*.rs.bk
 *.exe
+voice/actim
+voice/bong
+voice/hitachi
+voice/lucy
