@@ -41,7 +41,7 @@ task :install do
     if OS.windows? then
         sh "echo @#{target} %* >> #{command}"
     else
-        sh "echo './#{target} $@'' >> #{command}"
+        sh "echo './#{target} $@' >> #{command}"
         sh "chmod +x #{command}"
     end
     puts "\nInstall to path (Enter path):"
