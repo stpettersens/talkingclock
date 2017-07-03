@@ -55,7 +55,10 @@ impl Voice {
             .spawn()
             .expect("voice failed to start");
         } else {
-            println!("talkingclock: Voice synth not implemented on *nix.");
+            Command::new("say")
+            .arg(time)
+            .spawn()
+            .expect("say failed to start");
         }
     }
     
