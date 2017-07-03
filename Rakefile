@@ -16,11 +16,15 @@ task :default do
 end
 
 task :test do
+    quiet = ""
+    if ENV['CI'] then
+        quiet = "--quiet"
+    end
     sh "#{tp} --help"
     puts ""
-    sh "#{tp}"
+    sh "#{tp} #{quiet}"
     puts ""
-    sh "#{tp} --time 13:05"
+    sh "#{tp} #{quiet} --time 13:05"
 end
 
 task :upx => [:default] do
@@ -31,13 +35,13 @@ task :upx => [:default] do
 end
 
 task :install do
-    i = ""
+    ignore = ""
     if OS.windows? then
-        i = "@"
+        ignore = "@"
     else
         sh "echo '#!/bin/sh' >> #{command}"
     end
-    sh "echo #{i}cd #{Dir.pwd} >> #{command}"
+    sh "echo #{ignore}cd #{Dir.pwd} >> #{command}"
     if OS.windows? then
         sh "echo @#{target} %* >> #{command}"
     else

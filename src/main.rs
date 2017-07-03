@@ -20,7 +20,6 @@ use chrono::Local;
 use voice::Voice;
 use std::io::Read;
 use std::fs::File;
-use std::env;
 use std::process::exit;
 
 fn display_version() {
@@ -41,19 +40,10 @@ fn display_usage(program: &str, code: i32) {
     println!("\nUsage: {} [-h | -v | -t <hh:mm>]", program);
     println!("\nOptions are:\n");
     println!("-t | --time: Input time in 24 hour notation.");
+    println!("-q | --quiet: Do not talk, only display time (Quiet mode).");
     println!("-h | --help: Display this usage information and exit.");
     println!("-v | --version: Display version information and exit.");
     exit(code);
-}
-
-fn is_ci() -> bool {
-    let mut ci = false;
-    let val = "CI";
-    match env::var(val) {
-        Ok(val) => ci = true,
-        Err(e) => {},
-    }
-    ci
 }
 
 fn parse_unit(unit: &str) -> usize {
@@ -76,7 +66,7 @@ fn load_voice(conf: &str) -> Voice {
     serde_json::from_str(&vs).unwrap()
 }
 
-fn say_time(program: &str, timestr: String, conf: &str) {
+fn say_time(program: &str, timestr: String, conf: &str, quiet: bool) {
     let voice = load_voice(&conf);
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
@@ -142,11 +132,13 @@ fn say_time(program: &str, timestr: String, conf: &str) {
     }
     let time = format!("{}", spoken_time.join(" "));
     println!("{} {}", time, am_pm);
-    if voice.is_synth() {
-        voice.speak_time_synth(&format!("{} {} {}", time, 
-        &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
-    } else if !is_ci() {
-        voice.speak_time(hrs, mins, am_pm);
+    if !quiet {
+        if voice.is_synth() {
+            voice.speak_time_synth(&format!("{} {} {}", time, 
+            &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
+        } else {
+            voice.speak_time(hrs, mins, am_pm);
+        }
     }
     exit(0);
 }
@@ -155,18 +147,20 @@ fn main() {
     let cli = CliOptions::new("talkingclock");
     let program = cli.get_program();
     let mut timestr = String::new();
-
+    let mut quiet = false;
+    // ---------------------
     let conf = "voice.json";
-
+    // ---------------------
     if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
                 "-t" | "--time" => timestr = cli.next_argument(i),
+                "-q" | "--quiet" => quiet = true,
                 "-h" | "--help" => display_usage(&program, 0),
                 "-v" | "--version" => display_version(),
                 _ => continue,
             }
         }
     }
-    say_time(&program, timestr, &conf);
+    say_time(&program, timestr, &conf, quiet);
 }
