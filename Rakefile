@@ -35,15 +35,16 @@ task :install do
     if OS.windows? then
         i = "@"
     else
-        sh "echo #!/bin/sh >> #{command}"
+        sh "echo '#!/bin/sh' >> #{command}"
     end
     sh "echo #{i}cd #{Dir.pwd} >> #{command}"
     if OS.windows? then
         sh "echo @#{target} %* >> #{command}"
     else
-        sh "echo #{target} $@ >> #{command}"
+        sh "echo './#{target} $@'' >> #{command}"
+        sh "chmod +x #{command}"
     end
-    puts "\nInstall to dir (Enter path):"
+    puts "\nInstall to path (Enter path):"
     STDIN.gets
     FileUtils.copy(command, $_.chomp!)
     File.delete(command)
