@@ -3,7 +3,7 @@ require 'fileutils'
 
 target = "talkingclock"
 tp = "target/release/talkingclock"
-command = "talkingclock"
+command = "talkingclock.sh"
 
 if OS.windows? then
     target = "talkingclock.exe"
