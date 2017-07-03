@@ -37,7 +37,7 @@ fn display_usage(program: &str, code: i32) {
     println!("Command line application which says the time.");
     println!("Copyright 2017 Sam Saint-Pettersen.");
     println!("\nReleased under the MIT License.");
-    println!("\nUsage: {} [-h | -v | -t <hh:mm>]", program);
+    println!("\nUsage: {} [-h | -v | -t <hh:mm>][-q]", program);
     println!("\nOptions are:\n");
     println!("-t | --time: Input time in 24 hour notation.");
     println!("-q | --quiet: Do not talk, only display time (Quiet mode).");
