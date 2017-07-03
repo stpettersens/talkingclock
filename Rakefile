@@ -34,8 +34,10 @@ task :install do
     i = ""
     if OS.windows? then
         i = "@"
+    else
+        sh "echo #!/bin/sh >> #{command}"
     end
-    sh "echo #{i}cd #{Dir.pwd} > #{command}"
+    sh "echo #{i}cd #{Dir.pwd} >> #{command}"
     if OS.windows? then
         sh "echo @#{target} %* >> #{command}"
     else
