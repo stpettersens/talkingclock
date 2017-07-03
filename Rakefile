@@ -1,11 +1,14 @@
 require 'os'
+require 'fileutils'
 
 target = "talkingclock"
 tp = "target/release/talkingclock"
+command = "talkingclock"
 
 if OS.windows? then
     target = "talkingclock.exe"
     tp = "target\\release\\talkingclock.exe"
+    command = "talkingclock.cmd"
 end
 
 task :default do
@@ -25,6 +28,19 @@ task :upx => [:default] do
         File.delete(target)
     end
     sh "upx -9 #{tp} -o #{target}"
+end
+
+task :install do
+    sh "echo @cd #{Dir.pwd} > #{command}"
+    if OS.windows? then
+        sh "echo @#{target} %* >> #{command}"
+    else
+        sh "echo #{target} $@ >> #{command}"
+    end
+    puts "\nInstall to dir (Enter path):"
+    STDIN.gets
+    FileUtils.copy(command, $_.chomp!)
+    File.delete(command)
 end
 
 task :clean do
