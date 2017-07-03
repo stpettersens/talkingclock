@@ -31,7 +31,11 @@ task :upx => [:default] do
 end
 
 task :install do
-    sh "echo @cd #{Dir.pwd} > #{command}"
+    i = ""
+    if OS.windows? then
+        i = "@"
+    end
+    sh "echo #{i}cd #{Dir.pwd} > #{command}"
     if OS.windows? then
         sh "echo @#{target} %* >> #{command}"
     else
