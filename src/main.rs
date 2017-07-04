@@ -176,6 +176,5 @@ fn main() {
         Ok(exe_path) => config.set_paths(exe_path),
         Err(e) => {},
     }
-    println!("{:#?}", config);
     say_time(&program, timestr, &config, quiet);
 }

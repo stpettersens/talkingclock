@@ -16,7 +16,6 @@ fn split_path(path: &str) -> String {
     spath.join(delim).to_owned()
 }
 
-#[derive(Debug)]
 pub struct Config {
     voice: String,
     locale: String,
