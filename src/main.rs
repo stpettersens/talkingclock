@@ -6,6 +6,7 @@
     Released under the MIT License.
 */
 
+mod config;
 mod voice;
 extern crate clioptions;
 extern crate litepattern;
@@ -17,9 +18,11 @@ extern crate serde_derive;
 use clioptions::CliOptions;
 use litepattern::LPattern;
 use chrono::Local;
+use config::Config;
 use voice::Voice;
 use std::io::Read;
 use std::fs::File;
+use std::env;
 use std::process::exit;
 
 fn display_version() {
@@ -66,8 +69,8 @@ fn load_voice(conf: &str) -> Voice {
     serde_json::from_str(&vs).unwrap()
 }
 
-fn say_time(program: &str, timestr: String, conf: &str, quiet: bool) {
-    let voice = load_voice(&conf);
+fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
+    let voice = load_voice(&conf.get_voice());
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
@@ -148,9 +151,10 @@ fn main() {
     let program = cli.get_program();
     let mut timestr = String::new();
     let mut quiet = false;
-    // ---------------------
-    let conf = "voice.json";
-    // ---------------------
+    // ------------------------------
+    let voice = "voice.json";
+    let locale = "locale.json";
+    // ------------------------------
     if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
@@ -162,5 +166,10 @@ fn main() {
             }
         }
     }
-    say_time(&program, timestr, &conf, quiet);
+    let mut config = Config::new(voice, locale);
+    match env::current_exe() {
+        Ok(exe_path) => config.set_paths(exe_path),
+        Err(e) => {},
+    }
+    say_time(&program, timestr, &config, quiet);
 }
