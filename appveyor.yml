@@ -12,7 +12,7 @@ install:
   - upx --version
 
 test_script:
-  - rake
+  - rake upx
   - rake test
 
 build: off
