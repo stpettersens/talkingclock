@@ -1,4 +1,5 @@
 install:
+  - choco install upx
   - ps: Start-FileDownload 'https://static.rust-lang.org/dist/rust-nightly-i686-pc-windows-msvc.exe'
   - rust-nightly-i686-pc-windows-msvc.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Rust"
   - set PATH=C:\Program Files (x86)\Rust\bin;C:\Ruby24\bin;%PATH%
@@ -8,6 +9,7 @@ install:
   - rake --version
   - rustc --version
   - cargo --version
+  - upx --version
 
 test_script:
   - rake

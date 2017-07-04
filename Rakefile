@@ -20,11 +20,11 @@ task :test do
     if ENV['CI'] then
         quiet = "--quiet"
     end
-    sh "#{tp} --help"
+    sh "#{target} --help"
     puts ""
-    sh "#{tp} #{quiet}"
+    sh "#{target} #{quiet}"
     puts ""
-    sh "#{tp} #{quiet} --time 13:05"
+    sh "#{target} #{quiet} --time 13:05"
 end
 
 task :upx => [:default] do
