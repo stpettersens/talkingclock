@@ -5,3 +5,5 @@ voice/actim
 voice/bong
 voice/hitachi
 voice/lucy
+.idea
+*.iml
