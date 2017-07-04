@@ -1,7 +1,7 @@
 require 'os'
 require 'fileutils'
 
-target = "talkingclock"
+target = "./talkingclock"
 tp = "target/release/talkingclock"
 command = "talkingclock.sh"
 
