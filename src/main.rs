@@ -62,6 +62,11 @@ fn throw_invalid_time(program: &str) {
     display_error(program, "Invalid format time");
 }
 
+fn write_voice(voice: &str) {
+    let v = Voice::new(voice);
+    // !TODO
+}
+
 fn load_voice(conf: &str) -> Voice {
     let mut vs = String::new();
     let mut file = File::open(&conf).unwrap();
@@ -171,5 +176,6 @@ fn main() {
         Ok(exe_path) => config.set_paths(exe_path),
         Err(e) => {},
     }
+    println!("{:#?}", config);
     say_time(&program, timestr, &config, quiet);
 }

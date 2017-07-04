@@ -25,12 +25,18 @@ fn play_sound(voice: &str, word: &str) {
     thread::sleep_ms(1000);
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Voice {
     voice: String,
 }
 
 impl Voice {
+    pub fn new(voice: &str) -> Voice {
+        Voice {
+            voice: voice.to_owned(),
+        }
+    }
+    
     pub fn is_synth(&self) -> bool {
         let mut synth = false;
         if &self.voice[0..self.voice.len() - 1] == "synth" {
