@@ -28,6 +28,7 @@ impl Config {
             locale: locale.to_owned(),
         } 
     }
+
     pub fn set_paths(&mut self, path: PathBuf) {
         let spath = format!("{}", path.display());
         self.voice = format!("{}{}{}",
@@ -35,6 +36,7 @@ impl Config {
         self.locale = format!("{}{}{}",
         split_path(&spath), get_delim(&spath), self.locale);
     }
+    
     pub fn get_voice(&self) -> &str {
         &self.voice
     }
