@@ -20,9 +20,9 @@ use litepattern::LPattern;
 use chrono::Local;
 use config::Config;
 use voice::Voice;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::fs::File;
-use std::env;
+use std::path::Path;
 use std::process::exit;
 
 fn display_version() {
@@ -63,8 +63,11 @@ fn throw_invalid_time(program: &str) {
 }
 
 fn write_voice(voice: &str) {
-    let v = Voice::new(voice);
-    // !TODO
+    let v = Voice::new("scottish"); // Use "scottish" as default voice.
+    let mut w = File::create(voice).unwrap();
+    let j = serde_json::to_string(&v).unwrap();
+    let fo = format!("{:#}\n", j);
+    let _ = w.write_all(fo.as_bytes());
 }
 
 fn load_voice(conf: &str) -> Voice {
@@ -145,7 +148,7 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
             voice.speak_time_synth(&format!("{} {} {}", time, 
             &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
         } else {
-            voice.speak_time(conf, hrs, mins, am_pm);
+            voice.speak_time(hrs, mins, am_pm);
         }
     }
     exit(0);
@@ -171,10 +174,9 @@ fn main() {
             }
         }
     }
-    let mut config = Config::new(voice, locale);
-    match env::current_exe() {
-        Ok(exe_path) => config.set_paths(exe_path),
-        Err(e) => {},
+    if !Path::new(&voice).exists() {
+        write_voice(&voice);
     }
+    let config = Config::new(voice, locale);
     say_time(&program, timestr, &config, quiet);
 }

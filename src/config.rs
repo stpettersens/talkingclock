@@ -1,28 +1,3 @@
-use std::path::PathBuf;
-
-fn get_delim(path: &str) -> &str {
-    let mut delim = "/";
-    if path.contains(r"\") {
-        delim = r"\";
-    }
-    &delim
-}
-
-fn split_path(path: &str) -> String {
-    let delim = get_delim(path);
-    let split = path.split(delim);
-    let mut spath: Vec<&str> = split.collect();
-    spath.pop();
-    spath.join(delim).to_owned()
-}
-
-fn split_from_json(path: &str) -> String {
-    let split = path.split(".json");
-    let mut spath: Vec<&str> = split.collect();
-    spath.pop();
-    spath.join(get_delim(path)).to_owned()
-}
-
 pub struct Config {
     voice: String,
     locale: String,
@@ -36,19 +11,7 @@ impl Config {
         } 
     }
 
-    pub fn set_paths(&mut self, path: PathBuf) {
-        let spath = format!("{}", path.display());
-        self.voice = format!("{}{}{}",
-        split_path(&spath), get_delim(&spath), self.voice);
-        self.locale = format!("{}{}{}",
-        split_path(&spath), get_delim(&spath), self.locale);
-    }
-    
     pub fn get_voice(&self) -> &str {
         &self.voice
-    }
-
-    pub fn get_voice_dir(&self) -> String {
-        split_from_json(&self.voice)
     }
 }
