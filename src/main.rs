@@ -90,8 +90,7 @@ fn load_locale(localestr: &str) -> Locale {
     let mut locale = Locale::new();
     let mut file = File::open(&localestr).unwrap();
     let _ = file.read_to_string(&mut sl);
-    let selected: DefaultLocale =
-    serde_json::from_str(&sl).unwrap();
+    let selected: DefaultLocale = serde_json::from_str(&sl).unwrap();
     if selected.get_locale() != "en" {
         file = File::open(&format!("locale/{}.json", 
         selected.get_locale())).unwrap();
@@ -131,13 +130,16 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     }
     let mut spoken_time: Vec<&str> = vec!["It's"];
     let period: Vec<&str> = vec!["am", "pm"];
+    let periodp: Vec<&str> = vec!["eh em", "pee em"];
     let sunits: Vec<&str> = vec!["", "one", "two", "three", "four", "five", 
     "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
     "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
     let stens: Vec<&str> = vec!["twenty", "thirty", "fourty", "fifty", "oh"];
     let mut am_pm = period[0];
+    let mut am_pmp = periodp[0];
     if hrs24 > 11 {
         am_pm = period[1];
+        am_pmp = periodp[1];
     }
     if hrs == 0 { hrs = 12; }
     spoken_time.push(sunits[hrs]);
@@ -169,8 +171,9 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     } else {
         spoken_time.push(sunits[mins]);
     }
-    let time = localize(&format!("{} {}", spoken_time.join(" "), am_pm), &locale);
-    println!("{}", time);
+    let time = format!("{} {}", spoken_time.join(" "), am_pmp);
+    let loctime = localize(&format!("{} {}", spoken_time.join(" "), am_pm), &locale);
+    println!("{}", loctime);
     if !quiet {
         if voice.is_synth() {
             voice.speak_time_synth(

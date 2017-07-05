@@ -76,7 +76,6 @@ pub fn localize(message: &str, locale: &Locale) -> String {
 }
 
 pub fn phoneticize(message: &str, locale: &Locale) -> String {
-    println!("message = {}", message);
     let mut phoneticized: Vec<String> = Vec::new();
     let split = message.split(" ");
     let locstrs: Vec<&str> = split.collect();
