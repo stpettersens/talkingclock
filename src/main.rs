@@ -176,8 +176,7 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     println!("{}", loctime);
     if !quiet {
         if voice.is_synth() {
-            voice.speak_time_synth(
-            &phoneticize(&time, &locale));
+            voice.speak_time_synth(&phoneticize(&time, &locale));
         } else {
             voice.speak_time(hrs, mins, am_pm);
         }
