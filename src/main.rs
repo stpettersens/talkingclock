@@ -134,7 +134,7 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     let sunits: Vec<&str> = vec!["", "one", "two", "three", "four", "five", 
     "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
     "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
-    let stens: Vec<&str> = vec!["twenty", "thirty", "fourty", "fifty", "oh"];
+    let stens: Vec<&str> = vec!["twenty", "thirty", "forty", "fifty", "oh"];
     let mut am_pm = period[0];
     let mut am_pmp = periodp[0];
     if hrs24 > 11 {
