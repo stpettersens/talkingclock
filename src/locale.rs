@@ -17,13 +17,13 @@ pub struct LocaleMessage {
 }
 
 impl LocaleMessage {
-    pub fn get_str(&self) -> String {
+    fn get_str(&self) -> String {
         self.locstr.clone()
     }
-    pub fn get_message(&self) -> String {
+    fn get_message(&self) -> String {
         self.message.clone()
     }
-    pub fn get_phonetic(&self) -> String {
+    fn get_phonetic(&self) -> String {
         self.phonetic.clone()
     }
 }
@@ -61,18 +61,31 @@ impl Locale {
     }
 }
 
-/*pub fn printlocln(message: &str, locale: &Locale, locstr: &str) {
-    if locale.get_message_str(locstr).is_empty() {
-        println!("{}", message);
-    } else {
-        println!("{}", locale.get_message_str(locstr));
-    }
-}*/
-
-pub fn formatloc(formatstr: &str, message: &str, locale: &Locale) {
+pub fn localize(message: &str, locale: &Locale) -> String {
+    let mut localized: Vec<String> = Vec::new();
     let split = message.split(" ");
     let locstrs: Vec<&str> = split.collect();
-    for l in locstrs {
-        //println!("{}", locale.get_message_str(l));
+    if !locale.get_message_str(locstrs[0]).is_empty() {
+        for l in locstrs {
+            localized.push(locale.get_message_str(l));
+        }
+    } else {
+        return message.to_owned();
     }
+    localized.join(" ")
+}
+
+pub fn phoneticize(message: &str, locale: &Locale) -> String {
+    println!("message = {}", message);
+    let mut phoneticized: Vec<String> = Vec::new();
+    let split = message.split(" ");
+    let locstrs: Vec<&str> = split.collect();
+    if !locale.get_message_str(locstrs[0]).is_empty() {
+        for l in locstrs {
+            phoneticized.push(locale.get_phonetic_str(l));
+        }
+    } else {
+        return message.to_owned();
+    }
+    phoneticized.join(" ")
 }

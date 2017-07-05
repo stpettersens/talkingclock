@@ -1,3 +1,29 @@
 {"locstr":"It's","message":"Es","phonetic":"es"}
-{"locstr":"oh","message":"cero","phonetic":"cero"}
+{"locstr":"oh","message":"cero","phonetic":"fero"}
 {"locstr":"one","message":"una","phonetic":"oona"}
+{"locstr":"two","message":"dos","phonetic":"dos"}
+{"locstr":"three","message":"tres","phonetic":"tres"}
+{"locstr":"four","message":"cuatro","phonetic":"catro"}
+{"locstr":"five","message":"cinco","phonetic":"finco"}
+{"locstr":"six","message":"seis","phonetic":"saays"}
+{"locstr":"seven","message":"seite","phonetic":"seeatee"}
+{"locstr":"eight","message":"ocho","phonetic":"ocho"}
+{"locstr":"nine","message":"nueve","phonetic":"newevvy"}
+{"locstr":"ten","message":"diez","phonetic":"deeez"}
+{"locstr":"eleven","message":"once","phonetic":"onsay"}
+{"locstr":"twelve","message":"doce","phonetic":"dossay"}
+{"locstr":"thirteen","message":"trece","phonetic":"tressay"}
+{"locstr":"fourteen","message":"catorce","phonetic":"catorsay"}
+{"locstr":"fifteen","message":"quince","phonetic":"kinsay"}
+{"locstr":"sixteen","message":"deiciseis","phonetic":"dieseesays"}
+{"locstr":"seventeen","message":"deicisete","phonetic":"dieseeseti"}
+{"locstr":"eighteen","message":"deiciocho","phonetic":"dieseeocho"}
+{"locstr":"nineteen","message":"deicinueve","phonetic":"dieseenewevvy"}
+{"locstr":"twenty","message":"veinte","phonetic":"venti"}
+{"locstr":"thirty","message":"trienta","phonetic":"trenta"}
+{"locstr":"forty","message":"cuarenta","phonetic":"karenta"}
+{"locstr":"fifty","message":"cincuenta","phonetic":"sinkwenta"}
+{"locstr":"a","message":"de la","phonetic":"dela"}
+{"locstr":"m","message":"mañana","phonetic":"manyana"}
+{"locstr":"am","message":"de la mañana","phonetic":"de la manyana"}
+{"locstr":"pm","message":"de la tarde","phonetic":"de la tarday"}

@@ -169,13 +169,12 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     } else {
         spoken_time.push(sunits[mins]);
     }
-    let time = format!("{}", spoken_time.join(" "));
-    println!("{} {}", time, am_pm);
-    formatloc("{}", &spoken_time.join(" "), &locale);
+    let time = localize(&format!("{} {}", spoken_time.join(" "), am_pm), &locale);
+    println!("{}", time);
     if !quiet {
         if voice.is_synth() {
-            voice.speak_time_synth(&format!("{} {} {}", time, 
-            &am_pm[0..am_pm.len() - 1], &am_pm[1..]));
+            voice.speak_time_synth(
+            &phoneticize(&time, &locale));
         } else {
             voice.speak_time(hrs, mins, am_pm);
         }
