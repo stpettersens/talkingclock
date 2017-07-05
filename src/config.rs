@@ -10,8 +10,10 @@ impl Config {
             locale: locale.to_owned(),
         } 
     }
-
     pub fn get_voice(&self) -> &str {
         &self.voice
+    }
+    pub fn get_locale(&self) -> &str {
+        &self.locale
     }
 }

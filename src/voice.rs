@@ -36,7 +36,6 @@ impl Voice {
             voice: voice.to_owned(),
         }
     }
-    
     pub fn is_synth(&self) -> bool {
         let mut synth = false;
         if &self.voice[0..self.voice.len() - 1] == "synth" {
@@ -44,7 +43,6 @@ impl Voice {
         }
         synth
     }
-
     fn set_synth_gender(&self) -> &str {
         let mut gender = "-f";
         if self.voice == "synthm" {
@@ -52,7 +50,6 @@ impl Voice {
         }
         &gender
     }
-
     pub fn speak_time_synth(&self, time: &str) {
         if cfg!(target_os = "windows") {
             Command::new("voice.exe")
@@ -67,7 +64,6 @@ impl Voice {
             .expect("say failed to start");
         }
     }
-    
     pub fn speak_time(&self, hrs: usize, mins: usize, am_pm: &str) {
         let mut i = 1;
         for m in vec!["its", 

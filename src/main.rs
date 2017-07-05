@@ -8,6 +8,7 @@
 
 mod config;
 mod voice;
+mod locale;
 extern crate clioptions;
 extern crate litepattern;
 extern crate chrono;
@@ -20,7 +21,8 @@ use litepattern::LPattern;
 use chrono::Local;
 use config::Config;
 use voice::Voice;
-use std::io::{Read, Write};
+use locale::*;
+use std::io::{Read, Write, BufReader, BufRead};
 use std::fs::File;
 use std::path::Path;
 use std::process::exit;
@@ -70,15 +72,41 @@ fn write_voice(voice: &str) {
     let _ = w.write_all(fo.as_bytes());
 }
 
-fn load_voice(conf: &str) -> Voice {
+fn write_locale(locale: &str) {
+    let mut w = File::create(locale).unwrap();
+    let j = "{\"locale\":\"en\"}\n"; // Use "en" as default locale.
+    let _ = w.write_all(j.as_bytes());
+}
+
+fn load_voice(voice: &str) -> Voice {
     let mut vs = String::new();
-    let mut file = File::open(&conf).unwrap();
+    let mut file = File::open(&voice).unwrap();
     let _ = file.read_to_string(&mut vs);
     serde_json::from_str(&vs).unwrap()
 }
 
+fn load_locale(localestr: &str) -> Locale {
+    let mut sl = String::new();
+    let mut locale = Locale::new();
+    let mut file = File::open(&localestr).unwrap();
+    let _ = file.read_to_string(&mut sl);
+    let selected: DefaultLocale =
+    serde_json::from_str(&sl).unwrap();
+    if selected.get_locale() != "en" {
+        file = File::open(&format!("locale/{}.json", 
+        selected.get_locale())).unwrap();
+        for line in BufReader::new(file).lines() {
+            locale.add_message(
+            serde_json::from_str(&line.unwrap())
+            .unwrap());
+        }
+    }
+    locale
+}
+
 fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     let voice = load_voice(&conf.get_voice());
+    let locale = load_locale(&conf.get_locale());
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
@@ -143,6 +171,7 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     }
     let time = format!("{}", spoken_time.join(" "));
     println!("{} {}", time, am_pm);
+    formatloc("{}", &spoken_time.join(" "), &locale);
     if !quiet {
         if voice.is_synth() {
             voice.speak_time_synth(&format!("{} {} {}", time, 
@@ -176,6 +205,9 @@ fn main() {
     }
     if !Path::new(&voice).exists() {
         write_voice(&voice);
+    }
+    if !Path::new(&locale).exists() {
+        write_locale(&locale);
     }
     let config = Config::new(voice, locale);
     say_time(&program, timestr, &config, quiet);
