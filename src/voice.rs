@@ -6,19 +6,20 @@
     Released under the MIT License.
 */
 
+use config::Config;
 use std::process::Command;
 use std::thread;
 
-fn play_sound(voice: &str, word: &str) {
+fn play_sound(dir: &str, voice: &str, word: &str) {
     if cfg!(target_os = "windows") {
         Command::new("sounder.exe")
-        .arg(&format!("voice/{}/{}.wav", voice, word))
+        .arg(&format!(r"{}\{}\{}.wav", dir, voice, word))
         .spawn()
         .expect("sounder failed to start");
     } else {
         Command::new("ffplay")
         .args(&["-autoexit", "-nodisp", "-loglevel", "8", 
-        &format!("voice/{}/{}.wav", voice, word)])
+        &format!("{}/{}/{}.wav", dir, voice, word)])
         .spawn()
         .expect("ffplay failed to start");
     }
@@ -68,7 +69,7 @@ impl Voice {
         }
     }
     
-    pub fn speak_time(&self, hrs: usize, mins: usize, am_pm: &str) {
+    pub fn speak_time(&self, conf: &Config, hrs: usize, mins: usize, am_pm: &str) {
         let mut i = 1;
         for m in vec!["its", 
         &format!("{}", hrs), &format!("{}", mins), am_pm] {
@@ -97,9 +98,9 @@ impl Voice {
                     u = format!("{}", mins % 50);
                 }
             }
-            play_sound(&self.voice, &w);
+            play_sound(&conf.get_voice_dir(), &self.voice, &w);
             if !u.is_empty() {
-                play_sound(&self.voice, &u);
+                play_sound(&conf.get_voice_dir(), &self.voice, &u);
             }
             i += 1;
         }

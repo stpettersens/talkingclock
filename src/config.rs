@@ -16,6 +16,13 @@ fn split_path(path: &str) -> String {
     spath.join(delim).to_owned()
 }
 
+fn split_from_json(path: &str) -> String {
+    let split = path.split(".json");
+    let mut spath: Vec<&str> = split.collect();
+    spath.pop();
+    spath.join(get_delim(path)).to_owned()
+}
+
 pub struct Config {
     voice: String,
     locale: String,
@@ -39,5 +46,9 @@ impl Config {
     
     pub fn get_voice(&self) -> &str {
         &self.voice
+    }
+
+    pub fn get_voice_dir(&self) -> String {
+        split_from_json(&self.voice)
     }
 }
