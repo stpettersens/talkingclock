@@ -72,16 +72,25 @@ impl Voice {
             let mut ww = String::new();
             let mut www = String::new();
             let mut u = String::new();
-            if self._24hr && hrs == 20 { 
+            if self._24hr && hrs == 0 { 
                 ww = format!("{}", 0);
                 www = format!("{}", 0);
             }
             if self._24hr && hrs < 10 { 
                 ww = format!("{}", 0);
                 www = format!("{}", hrs);
+            } else if self._24hr && hrs >= 20 {
+                ww = format!("{}", 20);
+                if hrs > 20 {
+                    www = format!("{}", hrs - 20);
+                }
             }
             if i == 3 {
-                if mins == 0 { i += 1; continue; }
+                if !self._24hr && mins == 0 { i += 1; continue; }
+                if self._24hr && mins == 0 {
+                    w = "0";
+                    u = format!("{}", 0);
+                }
                 if mins > 0 && mins < 10 {
                     w = "O";
                     u = format!("{}", mins);

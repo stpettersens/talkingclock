@@ -143,8 +143,15 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
     }
     if _24hr && hrs >= 20 {
         spoken_time.push(stens[0]);
+        if hrs > 20 {
+            spoken_time.push(sunits[hrs - 20]);
+        }
     } else {
         spoken_time.push(sunits[hrs]);
+    }
+    if _24hr && mins == 0 {
+        spoken_time.push(sunits[20]);
+        spoken_time.push(sunits[20]);
     }
     if mins >= 20 && mins < 30 {
         spoken_time.push(stens[0]);
