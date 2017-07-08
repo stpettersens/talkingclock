@@ -2,7 +2,7 @@
 pub struct LocaleMessage {
     locstr: String,
     message: String,
-    phonetic: String,
+    phonetic: Option<String>,
 }
 
 impl LocaleMessage {
@@ -13,7 +13,7 @@ impl LocaleMessage {
         self.message.clone()
     }
     fn get_phonetic(&self) -> String {
-        self.phonetic.clone()
+        self.phonetic.clone().unwrap()
     }
 }
 
