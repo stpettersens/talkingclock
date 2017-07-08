@@ -1,3 +1,11 @@
+/*
+    Talking clock
+    Command line application which says the time.
+
+    Copyright 2017 Sam Saint-Pettersen.
+    Released under the MIT License.
+*/
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     voice: String,
