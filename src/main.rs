@@ -42,10 +42,11 @@ fn display_usage(program: &str, code: i32) {
     println!("Command line application which says the time.");
     println!("Copyright 2017 Sam Saint-Pettersen.");
     println!("\nReleased under the MIT License.");
-    println!("\nUsage: {} [-h | -v | -t <hh:mm>][-q]", program);
+    println!("\nUsage: {} [-h | -v | -c | -t <hh:mm>][-q]", program);
     println!("\nOptions are:\n");
     println!("-t | --time: Input time in 24 hour notation.");
     println!("-q | --quiet: Do not talk, only display time (Quiet mode).");
+    println!("-c | --config: Display loaded configuration and exit.");
     println!("-h | --help: Display this usage information and exit.");
     println!("-v | --version: Display version information and exit.");
     exit(code);
@@ -89,6 +90,11 @@ fn load_locale(localestr: &str) -> Locale {
         }
     }
     locale
+}
+
+fn display_configuration(conf: &Config) {
+    println!("{:#?}", conf);
+    exit(0);
 }
 
 fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
@@ -199,6 +205,7 @@ fn main() {
     let program = cli.get_program();
     let mut timestr = String::new();
     let mut quiet = false;
+    let mut dc = false;
     // ------------------------------
     let conf = "config.json";
     let voice = "scottish";
@@ -212,6 +219,7 @@ fn main() {
                 "-q" | "--quiet" => quiet = true,
                 "-h" | "--help" => display_usage(&program, 0),
                 "-v" | "--version" => display_version(),
+                "-c" | "--config" => dc = true,
                 _ => continue,
             }
         }
@@ -221,5 +229,6 @@ fn main() {
         write_config(&conf, &config);
     }
     config = load_config(&conf);
+    if dc { display_configuration(&config); }
     say_time(&program, timestr, &config, quiet);
 }
