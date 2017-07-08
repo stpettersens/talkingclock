@@ -25,15 +25,16 @@ fn play_sound(voice: &str, word: &str) {
     thread::sleep_ms(1000);
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct Voice {
     voice: String,
+    _24hr: bool,
 }
 
 impl Voice {
-    pub fn new(voice: &str) -> Voice {
+    pub fn new(voice: &str, _24hr: bool) -> Voice {
         Voice {
             voice: voice.to_owned(),
+            _24hr: _24hr,
         }
     }
     pub fn is_synth(&self) -> bool {
@@ -66,10 +67,19 @@ impl Voice {
     }
     pub fn speak_time(&self, hrs: usize, mins: usize, am_pm: &str) {
         let mut i = 1;
-        for m in vec!["its", 
-        &format!("{}", hrs), &format!("{}", mins), am_pm] {
+        for m in vec!["its", &format!("{}", hrs), &format!("{}", mins), am_pm] {
             let mut w = m;
+            let mut ww = String::new();
+            let mut www = String::new();
             let mut u = String::new();
+            if self._24hr && hrs == 20 { 
+                ww = format!("{}", 0);
+                www = format!("{}", 0);
+            }
+            if self._24hr && hrs < 10 { 
+                ww = format!("{}", 0);
+                www = format!("{}", hrs);
+            }
             if i == 3 {
                 if mins == 0 { i += 1; continue; }
                 if mins > 0 && mins < 10 {
@@ -93,7 +103,12 @@ impl Voice {
                     u = format!("{}", mins % 50);
                 }
             }
-            play_sound(&self.voice, &w);
+            if i == 2 && !ww.is_empty() {
+                play_sound(&self.voice, &ww);
+                if !www.is_empty() { play_sound(&self.voice, &www); }
+            } else {
+                play_sound(&self.voice, &w);
+            }
             if !u.is_empty() {
                 play_sound(&self.voice, &u);
             }

@@ -1,15 +1,4 @@
 #[derive(Deserialize)]
-pub struct DefaultLocale {
-    locale: String,
-}
-
-impl DefaultLocale {
-    pub fn get_locale(&self) -> String {
-        self.locale.clone()
-    }
-}
-
-#[derive(Deserialize)]
 pub struct LocaleMessage {
     locstr: String,
     message: String,

@@ -64,36 +64,24 @@ fn throw_invalid_time(program: &str) {
     display_error(program, "Invalid format time");
 }
 
-fn write_voice(voice: &str) {
-    let v = Voice::new("scottish"); // Use "scottish" as default voice.
-    let mut w = File::create(voice).unwrap();
-    let j = serde_json::to_string(&v).unwrap();
+fn write_config(conf: &str, config: &Config) {
+    let mut w = File::create(conf).unwrap();
+    let j = serde_json::to_string(&config).unwrap();
     let fo = format!("{:#}\n", j);
     let _ = w.write_all(fo.as_bytes());
 }
 
-fn write_locale(locale: &str) {
-    let mut w = File::create(locale).unwrap();
-    let j = "{\"locale\":\"en\"}\n"; // Use "en" as default locale.
-    let _ = w.write_all(j.as_bytes());
-}
-
-fn load_voice(voice: &str) -> Voice {
-    let mut vs = String::new();
-    let mut file = File::open(&voice).unwrap();
-    let _ = file.read_to_string(&mut vs);
-    serde_json::from_str(&vs).unwrap()
+fn load_config(conf: &str) -> Config {
+    let mut cs = String::new();
+    let mut file = File::open(&conf).unwrap();
+    let _ = file.read_to_string(&mut cs);
+    serde_json::from_str(&cs).unwrap()
 }
 
 fn load_locale(localestr: &str) -> Locale {
-    let mut sl = String::new();
     let mut locale = Locale::new();
-    let mut file = File::open(&localestr).unwrap();
-    let _ = file.read_to_string(&mut sl);
-    let selected: DefaultLocale = serde_json::from_str(&sl).unwrap();
-    if selected.get_locale() != "en" {
-        file = File::open(&format!("locale/{}.json", 
-        selected.get_locale())).unwrap();
+    if localestr != "en" {
+        let file = File::open(&format!("locale/{}.json", localestr)).unwrap();
         for line in BufReader::new(file).lines() {
             locale.add_message(
             serde_json::from_str(&line.unwrap())
@@ -104,8 +92,9 @@ fn load_locale(localestr: &str) -> Locale {
 }
 
 fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
-    let voice = load_voice(&conf.get_voice());
+    let voice = Voice::new(&conf.get_voice(), conf.is_24hr());
     let locale = load_locale(&conf.get_locale());
+    let _24hr: bool = conf.is_24hr();
     let mut hrs24: usize = 0;
     let mut hrs: usize = 0;
     let mut mins: usize = 0;
@@ -129,20 +118,34 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
         }
     }
     let mut spoken_time: Vec<&str> = vec!["It's"];
-    let period: Vec<&str> = vec!["am", "pm"];
+    let period: Vec<&str> = vec!["am", "pm", ""];
     let periodp: Vec<&str> = vec!["eh em", "pee em"];
     let sunits: Vec<&str> = vec!["", "one", "two", "three", "four", "five", 
     "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
-    "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+    "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "zero"];
     let stens: Vec<&str> = vec!["twenty", "thirty", "forty", "fifty", "oh"];
     let mut am_pm = period[0];
     let mut am_pmp = periodp[0];
-    if hrs24 > 11 {
+    if !_24hr && hrs24 > 11 {
         am_pm = period[1];
         am_pmp = periodp[1];
+    } else if _24hr {
+        am_pm = period[2];
+        am_pmp = period[2];
+        hrs = hrs24;
     }
-    if hrs == 0 { hrs = 12; }
-    spoken_time.push(sunits[hrs]);
+    if !_24hr && hrs == 0 { hrs = 12; }
+    if _24hr && hrs < 10 { 
+        if hrs == 0 {
+            spoken_time.push(sunits[20]);
+        }
+        spoken_time.push(sunits[20]);
+    }
+    if _24hr && hrs >= 20) {
+        spoken_time.push(stens[0]);
+    } else {
+        spoken_time.push(sunits[hrs]);
+    }
     if mins >= 20 && mins < 30 {
         spoken_time.push(stens[0]);
         if mins > 20 {
@@ -190,8 +193,10 @@ fn main() {
     let mut timestr = String::new();
     let mut quiet = false;
     // ------------------------------
-    let voice = "voice.json";
-    let locale = "locale.json";
+    let conf = "config.json";
+    let voice = "scottish";
+    let locale = "en";
+    let _24hr = false;
     // ------------------------------
     if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
@@ -204,12 +209,10 @@ fn main() {
             }
         }
     }
-    if !Path::new(&voice).exists() {
-        write_voice(&voice);
+    let mut config = Config::new(voice, locale, _24hr);
+    if !Path::new(&conf).exists() {
+        write_config(&conf, &config);
     }
-    if !Path::new(&locale).exists() {
-        write_locale(&locale);
-    }
-    let config = Config::new(voice, locale);
+    config = load_config(&conf);
     say_time(&program, timestr, &config, quiet);
 }
