@@ -8,9 +8,9 @@
 
 mod config;
 mod voice;
-mod locale;
 extern crate clioptions;
 extern crate litepattern;
+extern crate litelocale;
 extern crate chrono;
 extern crate serde;
 extern crate serde_json;
@@ -18,10 +18,10 @@ extern crate serde_json;
 extern crate serde_derive;
 use clioptions::CliOptions;
 use litepattern::LPattern;
+use litelocale::*;
 use chrono::Local;
 use config::Config;
 use voice::Voice;
-use locale::*;
 use std::io::{Read, Write, BufReader, BufRead};
 use std::fs::File;
 use std::path::Path;
