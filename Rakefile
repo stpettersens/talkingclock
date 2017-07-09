@@ -64,5 +64,5 @@ task :clean do
 end
 
 task :cleanlock do
-    sh "cargo clean"
+	File.delete("Cargo.lock")
 end

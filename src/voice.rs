@@ -7,7 +7,7 @@
 */
 
 use std::process::Command;
-use std::thread;
+use std::{thread, time};
 
 fn play_sound(voice: &str, word: &str) {
     if cfg!(target_os = "windows") {
@@ -22,7 +22,7 @@ fn play_sound(voice: &str, word: &str) {
         .spawn()
         .expect("ffplay failed to start");
     }
-    thread::sleep_ms(1000);
+    thread::sleep(time::Duration::from_millis(1000));
 }
 
 pub struct Voice {
