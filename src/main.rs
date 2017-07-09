@@ -206,12 +206,12 @@ fn main() {
     let mut timestr = String::new();
     let mut quiet = false;
     let mut dc = false;
-    // ------------------------------
-    let conf = "config.json";
+    // --------------------------------
+    let conf = ".talkingclock.json";
     let voice = "scottish";
     let locale = "en";
     let _24hr = false;
-    // ------------------------------
+    // --------------------------------
     if cli.get_num() > 1 {
         for (i, a) in cli.get_args().iter().enumerate() {
             match a.trim() {
