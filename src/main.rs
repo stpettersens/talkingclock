@@ -29,6 +29,13 @@ use std::process::exit;
 
 fn display_version() {
     println!("talkingclock v.0.1.0.");
+    println!("This program depends on:");
+    if cfg!(target_os = "windows") {
+        println!("Eli Fulkerson's voice.exe and sounder.exe:");
+        println!("https://elifulkerson.com/projects");
+    } else {
+        println!("say and ffplay commands.");
+    }
     exit(0);
 }
 
