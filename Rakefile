@@ -22,6 +22,8 @@ task :test do
     end
     sh "#{target} --help"
     puts ""
+    sh "#{target} --version"
+    puts ""
     sh "#{target} --config"
     puts ""
     sh "#{target} #{quiet}"
