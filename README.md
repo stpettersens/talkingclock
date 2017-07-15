@@ -14,7 +14,8 @@ Prerequisites to build are:
 * [UPX](https://upx.github.io) (optional).
 
 Runtime dependencies:
-* Eli Fulkerson's [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://www.elifulkerson.com/projects/commandline-wav-player.php) utilities (*Windows*).
+* Eli Fulkerson's [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://www.elifulkerson.com/projects/commandline-wav-player.php) utilities 
+placed either in PATH or this program's root directory (*Windows*).
 * *say* and *ffplay* (*Unices: BSD/Linux/Mac OS X*).
 
 Building:
@@ -26,5 +27,5 @@ Building:
 #### Usage
 
 * `talkingclock` # say the current time.
-* `talkingclock --time 13:05` # say one oh five / thirteen oh five.
+* `talkingclock --time 13:05` # say *one oh five* / *thirteen oh five*.
 * `talkingclock --help` # see all options and exit.
