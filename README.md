@@ -20,7 +20,7 @@ Runtime dependencies:
 Building:
 
 * `> rake` # or: `cargo build --release`
-* `> rake upx` # if you want to compress resultant executable with upx.
+* `> rake upx` # if you want to compress resultant executable with UPX.
 * `> rake install` # to install a global command (must have run `rake upx` first) to invoke the talking clock.
 
 #### Usage
