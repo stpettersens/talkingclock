@@ -14,7 +14,7 @@ Prerequisites to build are:
 * [UPX](https://upx.github.io) (optional).
 
 Runtime dependencies:
-* Eli Fulkerson's [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://www.elifulkerson.com/projects/commandline-wav-player.php) utilities 
+* [Eli Fulkerson](https://elifulkerson.com)'s [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://www.elifulkerson.com/projects/commandline-wav-player.php) utilities 
 placed either in PATH or this program's root directory (*Windows*).
 * *say* and *ffplay* (*Unices: BSD/Linux/Mac OS X*).
 
