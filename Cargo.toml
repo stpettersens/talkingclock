@@ -1,6 +1,7 @@
 [package]
 name = "talkingclock"
 version = "0.1.1"
+description = "Command line application which says the time"
 authors = ["Sam Saint-Pettersen <s.stpettersen+github@gmail.com>"]
 
 [dependencies]
