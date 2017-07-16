@@ -4,7 +4,7 @@ version = "0.1.1"
 dependencies = [
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "clioptions 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "litelocale 0.1.0 (git+https://github.com/stpettersens/litelocale.git)",
+ "litelocale 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "litepattern 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -52,7 +52,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "litelocale"
 version = "0.1.0"
-source = "git+https://github.com/stpettersens/litelocale.git#9f4ba7e3119d49d6607ca69b7596cd5663bb49fc"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "serde 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -191,7 +191,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum itoa 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "eb2f404fbc66fd9aac13e998248505e7ecb2ad8e44ab6388684c5fb11c6c251c"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum libc 0.2.26 (registry+https://github.com/rust-lang/crates.io-index)" = "30885bcb161cf67054244d10d4a7f4835ffd58773bc72e07d35fecf472295503"
-"checksum litelocale 0.1.0 (git+https://github.com/stpettersens/litelocale.git)" = "<none>"
+"checksum litelocale 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7f7bc1a6dab774378c03d6e1256c1680a7f29b753c4f39f725f54c741b1ad20b"
 "checksum litepattern 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e6bb19cd1e653aa17359b034f96781c29c92ebadfd9d8fc60c6e0630e303062b"
 "checksum num 0.1.40 (registry+https://github.com/rust-lang/crates.io-index)" = "a311b77ebdc5dd4cf6449d81e4135d9f0e3b153839ac90e648a8ef538f923525"
 "checksum num-integer 0.1.35 (registry+https://github.com/rust-lang/crates.io-index)" = "d1452e8b06e448a07f0e6ebb0bb1d92b8890eea63288c0b627331d53514d0fba"
