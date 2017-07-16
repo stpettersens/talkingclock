@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/stpettersens/talkingclock.png?branch=master)](https://travis-ci.org/stpettersens/talkingclock)
 [![Build status](https://ci.appveyor.com/api/projects/status/1ekayunrux3ise2m?svg=true)](https://ci.appveyor.com/project/stpettersens/talkingclock)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/stpettersens/talkingclock/blob/master/LICENSE)
 
 * Written in response to [this /r/dailyprogrammer challenge](https://www.reddit.com/r/dailyprogrammer/comments/6jr76h/20170627_challenge_321_easy_talking_clock).
 
@@ -14,7 +15,7 @@ Prerequisites to build are:
 * [UPX](https://upx.github.io) (optional).
 
 Runtime dependencies:
-* [Eli Fulkerson](https://elifulkerson.com)'s [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://www.elifulkerson.com/projects/commandline-wav-player.php) utilities 
+* [Eli Fulkerson](https://elifulkerson.com)'s [voice.exe](https://elifulkerson.com/projects/commandline-text-to-speech.php) and [sounder.exe](https://elifulkerson.com/projects/commandline-wav-player.php) utilities 
 placed either in PATH or this program's root directory (*Windows*).
 * *say* and *ffplay* (*Unices: BSD/Linux/Mac OS X*).
 
