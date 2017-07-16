@@ -28,7 +28,7 @@ use std::path::Path;
 use std::process::exit;
 
 fn display_version() {
-    println!("talkingclock v.0.1.0.");
+    println!("talkingclock v.0.1.1.");
     println!("This program depends on:");
     if cfg!(target_os = "windows") {
         println!("Eli Fulkerson's voice.exe and sounder.exe:");
@@ -195,8 +195,13 @@ fn say_time(program: &str, timestr: String, conf: &Config, quiet: bool) {
         spoken_time.push(sunits[mins]);
     }
     let time = format!("{} {}", spoken_time.join(" "), am_pmp);
-    let loctime = localize(&format!("{} {}", spoken_time.join(" "), am_pm), &locale);
-    println!("{}", loctime);
+    if !conf.is_digital() {
+        let loctime = localize(&format!("{} {}", spoken_time.join(" "), am_pm), &locale);
+        println!("{}", loctime);
+    } else {
+        if conf.is_24hr() { hrs = hrs24; am_pm = ""}
+        println!("{:02}:{:02} {}", hrs, mins, am_pm);
+    }
     if !quiet {
         if voice.is_synth() {
             voice.speak_time_synth(&phoneticize(&time, &locale));
@@ -217,6 +222,7 @@ fn main() {
     let conf = ".talkingclock.json";
     let voice = "scottish";
     let locale = "en";
+    let digital = false;
     let _24hr = false;
     // --------------------------------
     if cli.get_num() > 1 {
@@ -231,7 +237,7 @@ fn main() {
             }
         }
     }
-    let mut config = Config::new(voice, locale, _24hr);
+    let mut config = Config::new(voice, locale, digital, _24hr);
     if !Path::new(&conf).exists() {
         write_config(&conf, &config);
     }

@@ -10,14 +10,16 @@
 pub struct Config {
     voice: String,
     locale: String,
+    digital: bool,
     _24hr: bool,
 }
 
 impl Config {
-    pub fn new(voice: &str, locale: &str, _24hr: bool) -> Config {
+    pub fn new(voice: &str, locale: &str, digital: bool, _24hr: bool) -> Config {
         Config {
             voice: voice.to_owned(),
             locale: locale.to_owned(),
+            digital: digital,
             _24hr: _24hr,
         } 
     }
@@ -26,6 +28,9 @@ impl Config {
     }
     pub fn get_locale(&self) -> &str {
         &self.locale
+    }
+    pub fn is_digital(&self) -> bool {
+        self.digital
     }
     pub fn is_24hr(&self) -> bool {
         self._24hr

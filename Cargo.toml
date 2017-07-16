@@ -1,6 +1,6 @@
 [package]
 name = "talkingclock"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Sam Saint-Pettersen <s.stpettersen+github@gmail.com>"]
 
 [dependencies]
