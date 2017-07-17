@@ -16,10 +16,10 @@ fn play_sound(voice: &str, word: &str) {
         .spawn()
         .expect("sounder failed to start");
     } else {
-        Command::new("ffplay")
+        let _ = Command::new("ffplay")
         .args(&["-autoexit", "-nodisp", "-loglevel", "8", 
         &format!("voice/{}/{}.wav", voice, word)])
-        .spawn()
+        .output()
         .expect("ffplay failed to start");
     }
     thread::sleep(time::Duration::from_millis(1000));
