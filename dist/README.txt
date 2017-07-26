@@ -12,9 +12,9 @@ Installation
 Usage
 -----
 
-talkingclock 					        - say the current time.
+talkingclock 					- say the current time.
 talkingclock --time 13:05 		- say "one oh five" / "thirteen oh five".
-talkingclock --help				    - see all options and exit.
+talkingclock --help				- see all options and exit.
 
 
 Credits
