@@ -1,5 +1,5 @@
 ---------------------------------------------
-talkingclock 0.1.0 (win32)
+talkingclock 0.1.1 (win32)
 https://github.com/stpettersens/talkingclock
 ---------------------------------------------
 

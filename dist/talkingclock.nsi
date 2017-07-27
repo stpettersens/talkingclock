@@ -3,7 +3,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Talking clock"
-!define PRODUCT_VERSION "0.1"
+!define PRODUCT_VERSION "0.1.1"
 !define PRODUCT_PUBLISHER "Sam Saint-Pettersen"
 !define PRODUCT_WEB_SITE "https://github.com/stpettersens/talkingclock"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\talkingclock.exe"
@@ -12,9 +12,6 @@
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
-
-; StrContains --------------
-;!include "StrContains.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -42,7 +39,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "talkingclock_v0.1.0_win32.exe"
+OutFile "talkingclock_v0.1.1_win32.exe"
 InstallDir "$PROGRAMFILES\Talkingclock"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
